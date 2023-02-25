@@ -1,75 +1,37 @@
-﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
-
-
-CREATE TABLE "employees" (
-    "employee_ID" INT   NOT NULL,
-    "title_ID" VARCHAR   NOT NULL,
-    "DOB" DATE   NOT NULL,
-    "first_name" VARCHAR   NOT NULL,
-    "last_name" VARCHAR   NOT NULL,
-    "sex" VARCHAR   NOT NULL,
-    "hire_date" DATE   NOT NULL,
-    CONSTRAINT "pk_employees" PRIMARY KEY (
-        "employee_ID"
-     )
+﻿CREATE TABLE titles(
+    title_id VARCHAR PRIMARY KEY NOT NULL,
+    title VARCHAR NOT NULL
 );
 
-CREATE TABLE "salaries" (
-    "employee_ID" INT   NOT NULL,
-    "salary" INT   NOT NULL,
-    CONSTRAINT "pk_salaries" PRIMARY KEY (
-        "employee_ID"
-     )
+CREATE TABLE employees(
+    employee_id INT PRIMARY KEY NOT NULL,
+    title_id VARCHAR NOT NULL REFERENCES titles(title_id),
+    dob VARCHAR NOT NULL,
+    first_name VARCHAR NOT NULL,
+    last_name VARCHAR NOT NULL,
+    sex VARCHAR NOT NULL,
+    hire_date VARCHAR NOT NULL
 );
 
-CREATE TABLE "departments" (
-    "dept_ID" VARCHAR   NOT NULL,
-    "dept_name" VARCHAR   NOT NULL,
-    CONSTRAINT "pk_departments" PRIMARY KEY (
-        "dept_ID"
-     )
+CREATE TABLE salaries(
+    employee_id INT NOT NULL REFERENCES employees(employee_id),
+    salary INT NOT NULL,
+	PRIMARY KEY (employee_id)
 );
 
-CREATE TABLE "titles" (
-    "title_ID" VARCHAR   NOT NULL,
-    "title" VARCHAR   NOT NULL,
-    CONSTRAINT "pk_titles" PRIMARY KEY (
-        "title_ID"
-     )
+CREATE TABLE departments(
+    dept_id VARCHAR PRIMARY KEY NOT NULL,
+    dept_name VARCHAR NOT NULL
 );
 
-CREATE TABLE "dept_manager" (
-    "dept_ID" VARCHAR   NOT NULL,
-    "employee_ID" INT   NOT NULL,
-    CONSTRAINT "pk_dept_manager" PRIMARY KEY (
-        "dept_ID","employee_ID"
-     )
+CREATE TABLE dept_manager(
+    dept_id VARCHAR NOT NULL REFERENCES departments(dept_id),
+    employee_id INT NOT NULL REFERENCES employees(employee_id),
+	PRIMARY KEY (dept_id,employee_id)
 );
 
-CREATE TABLE "dept_emp" (
-    "employee_ID" INT   NOT NULL,
-    "dept_ID" VARCHAR   NOT NULL,
-    CONSTRAINT "pk_dept_emp" PRIMARY KEY (
-        "employee_ID","dept_ID"
-     )
+CREATE TABLE dept_emp(
+    employee_id INT NOT NULL REFERENCES employees(employee_id),
+    dept_id VARCHAR NOT NULL REFERENCES departments(dept_id),
+	PRIMARY KEY (employee_id,dept_id)
 );
-
-ALTER TABLE "employees" ADD CONSTRAINT "fk_employees_title_ID" FOREIGN KEY("title_ID")
-REFERENCES "titles" ("title_ID");
-
-ALTER TABLE "salaries" ADD CONSTRAINT "fk_salaries_employee_ID" FOREIGN KEY("employee_ID")
-REFERENCES "employees" ("employee_ID");
-
-ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_dept_ID" FOREIGN KEY("dept_ID")
-REFERENCES "departments" ("dept_ID");
-
-ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_employee_ID" FOREIGN KEY("employee_ID")
-REFERENCES "employees" ("employee_ID");
-
-ALTER TABLE "dept_emp" ADD CONSTRAINT "fk_dept_emp_employee_ID" FOREIGN KEY("employee_ID")
-REFERENCES "employees" ("employee_ID");
-
-ALTER TABLE "dept_emp" ADD CONSTRAINT "fk_dept_emp_dept_ID" FOREIGN KEY("dept_ID")
-REFERENCES "departments" ("dept_ID");
-

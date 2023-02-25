@@ -1,7 +1,17 @@
--- List the employee number, last name, first name, sex, and salary of each employee.
+-- Code that may be required to fix formatting issues in field names created by QuickDBD script
+-- ALTER TABLE salaries RENAME "employeeID" TO employeeID;
+-- ALTER TABLE employees RENAME "employeeID" TO employeeID;
 
+-- List the employee number, last name, first name, sex, and salary of each employee.
+SELECT e.employeeID, e.last_name, e.first_name, e.sex, s.salary
+FROM employees AS e
+JOIN salaries AS s 
+ON e.employeeID=s.employeeID;
 
 -- List the first name, last name, and hire date for the employees who were hired in 1986.
+SELECT first_name, last_name, hire_date
+FROM employees
+WHERE hire_date = %1986%;
 
 -- List the manager of each department along with their department number, department name, employee number, last name, and first name.
 
