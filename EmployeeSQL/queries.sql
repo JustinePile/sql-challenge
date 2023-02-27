@@ -10,7 +10,7 @@ FROM employees
 WHERE hire_date LIKE '%1986';
 
 -- Lists the manager of each department along with their department number, 
--- department name, employee number, last name, and first name.
+--   department name, employee number, last name, and first name.
 SELECT d.dept_name, dm.dept_id, e.employee_id, e.last_name, e.first_name
 FROM employees AS e
 JOIN dept_manager AS dm
@@ -39,13 +39,13 @@ FROM employees
 WHERE first_name = 'Hercules' AND last_name LIKE 'B%'
 
 -- Lists each employee in the Sales department, including their employee number, last name, and first name.
--- *Uses view that was created earlier*
+--  *Uses view that was created earlier*
 SELECT employee_id, last_name, first_name, dept_name
 FROM employee_dept 
 WHERE dept_name = 'Sales';
 
 -- Lists each employee in the Sales and Development departments, including their employee number, last name, first name, and department name.
--- *Uses view that was created earlier*
+--  *Uses view that was created earlier*
 SELECT employee_id, last_name, first_name, dept_name
 FROM employee_dept 
 WHERE dept_name = 'Development' OR dept_name = 'Sales';
